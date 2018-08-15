@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css" media="screen">
+		body{
+			background-color: #343D46;
+		}
+		ul{
+			list-style: none;
+		}
+		.local-weather{
+			width: 60%;
+			margin: 0 auto;
+			background-color: rgba(255, 255, 255, 0.4);
+		}
+		.city{
+			width: 60%;
+			margin: 10px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="local-weather">
+		<div class="city">
+			<h1 class="clearfix"><span class="pull-left"></span><span class="pull-right"></span></h1>
+			<small></small>
+		</div>
+		<div class="today-weather" id="today">
+			<h4 class="text-center">今日天气</h4>
+			<div class="container-fluid">
+				<ul class="row">
+					<li class="col-md-6">湿度：<span></span></li>
+					<li class="col-md-6">穿衣指数：<span></span></li>
+					<li class="col-md-6">洗车指数：<span></span></li>
+					<li class="col-md-6">旅行指数：<span></span></li>
+					<li class="col-md-6">锻炼指数：<span></span></li>
+					<li class="col-md-6">紫外线指数：<span></span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="future-weather container-fluid" id="future">
+			<h4 class="text-center">未来天气</h4>
+			<ul class="row">
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+				<li class="col-md-2">
+					<h3 class="date"></h3>
+					<p class="temp"></p>
+					<p class="weather"></p>
+					<p class="wind"></p>
+					<p class="week"></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+			var lon = 120.1551656314;//初始化
+			var lat = 30.2741702308;
+
+			function getLocation() { //检测是否支持地理定位 如果支持，则运行 getCurrentPosition() 方法。如果不支持，则向用户显示一段消息。
+				if (navigator.geolocation) { //如果getCurrentPosition()运行成功， //则向参数showPosition中规定的函数返回一个coordinates对象
+					navigator.geolocation.getCurrentPosition(showPosition);　　
+				} else {　　　　
+					$("body").html("地理位置浏览器不支持");
+				}
+			}
+
+			function showPosition(position) { //showPosition() 函数获得并显示经度和纬度
+				lon = position.coords.longitude;
+				lat = position.coords.latitude;
+				$.ajax({
+					url: 'http://v.juhe.cn/weather/geo',
+					dataType: "jsonp", //jsonp跨域获取数据
+					type: "get",
+					async: false,
+					data: {
+						lon: lon,
+						lat: lat,
+						format: 2,
+						dtype: "json",
+						key: "c352e5986b67b0b8015b479856acd47b"
+					},
+					success: function(data) {
+						var sk = data.result.sk;
+						var today = data.result.today;
+						var futur = data.result.future;
+
+						$(".city .pull-left").html(today.city);
+						$(".city .pull-right").html(sk.temp + "℃");
+						$(".city small").html(sk.wind_direction + " " + sk.wind_strength);
+						
+						var otoday = $("#today .col-md-6 span");
+						otoday.eq(0).html(sk.humidity);
+						otoday.eq(1).html(today.dressing_index + " " + today.dressing_advice);
+						otoday.eq(2).html(today.wash_index);
+						otoday.eq(3).html(today.travel_index);
+						otoday.eq(4).html(today.exercise_index);
+						otoday.eq(5).html(today.uv_index);
+						
+						var odate = $("#future .date");
+						var otemp = $("#future .temp");
+						var oweather = $("#future .weather");
+						var owind = $("#future .wind");
+						var oweek = $("#future .week");
+						for(var i=0; i<6;i++){
+							odate.eq(i).html(Math.floor(futur[i+1].date%1000/100) + "月" + futur[i+1].date%100 + "日");
+							otemp.eq(i).html(futur[i+1].temperature);
+							oweather.eq(i).html(futur[i+1].weather);
+							owind.eq(i).html(futur[i+1].wind);
+							oweek.eq(i).html(futur[i+1].week);
+						}
+
+					}
+				});
+			}
+			getLocation();
+		})
+	</script>
+</body>
+</html>
