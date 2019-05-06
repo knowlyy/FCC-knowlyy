@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <script src="libs/js/angular.min.js"></script>
+    <script src="js/test.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div ng-app="spicyApp2" ng-controller="SpicyCtrl">
+     <input ng-model="customSpice">
+     <button ng-click="spicy('chil')">Chili</button>
+     <button ng-click="spicy(customSpice)">Custom spice</button>
+     <p>The food is {{spice}} spicy!</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script> -->
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <style media="screen">
+      body{
+        background-color: #4C7DA7;
+      }
+      a{
+        color: inherit;
+        text-decoration: none;
+      }
+      .search{
+        border: 3px solid #ff0;
+        border-radius: 20px;
+        width: 2.5em;
+        height: 2.5em;
+        margin: 20px auto;
+        position: relative;
+        cursor: pointer;
+      }
+      .search::before{
+        content: " ";
+        display: block;
+        width: 3px;
+        height: 18px;
+        position: absolute;
+        bottom: -13px;
+        right: 0;
+        background-color: #ff0;
+        transform: rotate(-45deg);
+      }
+      input[type=text]{
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 offset-3 text-center">
+        <p><a href="http://en.wikipedia.org/wiki/Special:Random">点击我查看随机Wiki信息</a></p>
+        <form class="search rotate">
+          <input class="info" type="text" name="" value="">
+          <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </form>
+        <div class="footer">点击图标进行搜索</div>
+      </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+  </body>
+</html>
